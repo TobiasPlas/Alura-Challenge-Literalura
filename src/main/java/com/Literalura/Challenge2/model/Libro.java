@@ -31,17 +31,36 @@ public class Libro {
     @JsonAlias("download_count")
     private long cantidadDeDescargas;
 
+    @OneToOne()
+    @JsonAlias("formats")
+    private Formatos formato;
 
-    public Libro(Long id, String titulo, List<Autor> autores, List<String> asignaturas, List<String> lenguaje, long cantidadDeDescargas) {
+
+
+    public Libro(Long id, String titulo, List<Autor> autores, List<String> asignaturas, List<String> lenguaje,
+                 long cantidadDeDescargas, Formatos formato, String portada, String texto) {
         this.id = id;
         this.titulo = titulo;
         this.autores = autores;
         this.asignaturas = asignaturas;
         this.lenguaje = lenguaje;
         this.cantidadDeDescargas = cantidadDeDescargas;
+        this.formato = formato;
+
     }
 
+
     public Libro() {
+    }
+
+
+
+    public Formatos getFormato() {
+        return formato;
+    }
+
+    public void setFormato(Formatos formato) {
+        this.formato = formato;
     }
 
     public Long getId() {
@@ -92,15 +111,17 @@ public class Libro {
         this.cantidadDeDescargas = cantidadDeDescargas;
     }
 
+
     @Override
     public String toString() {
-        return "Libro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor=" + autores.toString() +
-                ", asignaturas=" + asignaturas +
-                ", lenguaje=" + lenguaje +
-                ", cantidadDeDescargas=" + cantidadDeDescargas +
-                '}';
+        return "\n"+"Libro" + "\n"+
+                "id=" + id +"\n"+
+                "Titulo='" + titulo + "\n"+
+                "Autores=" + autores +"\n"+
+                "Asignaturas=" + asignaturas +"\n"+
+                "Lenguaje=" + lenguaje +"\n"+
+                "CantidadDeDescargas=" + cantidadDeDescargas +"\n"+
+                "Formato=" + formato +"\n"+
+                "*******************************************";
     }
 }

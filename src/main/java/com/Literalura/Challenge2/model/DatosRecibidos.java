@@ -62,4 +62,13 @@ public class DatosRecibidos {
     public void setAnterior(String anterior) {
         this.anterior = anterior;
     }
+
+    @Override
+    public String toString() {
+        return "DatosRecibidos{" +
+                "cantidadDeLibros=" + cantidadDeLibros +
+                ", siguiente='" + siguiente + '\'' +
+                ", anterior='" + anterior + '\'' +
+                '}';
+    }
 }
