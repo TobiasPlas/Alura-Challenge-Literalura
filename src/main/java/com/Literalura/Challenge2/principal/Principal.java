@@ -2,15 +2,14 @@ package com.Literalura.Challenge2.principal;
 
 
 import com.Literalura.Challenge2.model.DatosRecibidos;
-import com.Literalura.Challenge2.model.Formatos;
 import com.Literalura.Challenge2.model.Libro;
 import com.Literalura.Challenge2.repository.LiborRepository;
 import com.Literalura.Challenge2.service.ConsumoApi;
 import com.Literalura.Challenge2.service.ConvierteDatos;
+import org.yaml.snakeyaml.scanner.Constant;
 
-import javax.xml.transform.Result;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,7 @@ public class Principal {
     private Scanner teclado = new Scanner(System.in);
     private ConsumoApi consumoApi = new ConsumoApi();
     private ConvierteDatos convierteDatos = new ConvierteDatos();
-    private String url = "https://gutendex.com/books/";
+    static String URL = "https://gutendex.com/books/";
     private LiborRepository repository;
     private String nom;
 
@@ -39,7 +38,9 @@ public class Principal {
                     *******************************************
                                     
                     01_Mostrar todos los libros colgados en la red
-                    02_Buscar libro por nombre 
+                    02_Filtrar libro por titulo 
+                    03_Filtrar libro por autor
+                    04_Filtrar por idioma 
                                         
                     00_Salir
                                     
@@ -55,12 +56,15 @@ public class Principal {
             switch (eleccion) {
 
                 case 1:
-                    mostrarLibros(url);
+                    mostrarLibros(URL);
                     break;
                 case 2:
-                    System.out.println("hola");
-                    //                 buscarLibroPorNombre();
+                    buscarLibroTitulo();
                     break;
+                case 3:
+                    buscarLibroAutor();
+                case 4:
+                    filtrarIdioma();
                 case 0:
                     break;
             }
@@ -74,19 +78,69 @@ public class Principal {
 
     }
 
-    //   private void buscarLibroPorNombre() {
-    //     List<Libro>libros=buscarLibro();
-    //       System.out.println(nom);
-    //   }
+    private void filtrarIdioma() {
+        String idioma = "";
+        System.out.println("""
+                *******************************************
+                *******  Que idioma desea leer?    ********
+                *******************************************
+                01_Español
+                02_English
+                """);
+        int i = teclado.nextInt();
+        teclado.nextLine();
+        switch (i) {
+            case 1:
+                idioma = "es";
+                break;
+            case 2:
+                idioma = "en";
+                break;
+        }
 
-    private List<Libro> buscarLibro() {
-        System.out.println("Ingrese el nombre del autor a buscar: ");
-        String nom = teclado.nextLine();
+        String urlIdioma=URL+"?languages="+idioma;
+        DatosRecibidos datos = obtenerDatos(urlIdioma);
 
-        System.out.println("Como entra aca?");
-        url = url + "?search=" + nom.toLowerCase().replace(" ", "%20");
-        DatosRecibidos datos = obtenerDatos(url);
+        List<Libro>listaIdioma=datos.getLibros();
+
+        System.out.println(listaIdioma.toString());
+        System.out.println(urlIdioma);
+        menuSecundario(datos);
+
+    }
+
+    private void buscarLibroAutor() {
+        System.out.println("""
+                *******************************************
+                *****  Ingrese el nombre del autor   ******
+                *******************************************
+                """);
+        String nom = teclado.nextLine().trim();
+        List<Libro> libros = buscarLibro(nom);
+        List<Libro> librosPorAutor = libros.stream()
+                .filter(libro -> libro.getAutores().stream().anyMatch(autor -> autor.getNombre().toLowerCase().contains(nom.toLowerCase()))).collect(Collectors.toList());
+
+        System.out.println(librosPorAutor);
+        guardarLibro();
+    }
+
+    private void buscarLibroTitulo() {
+        System.out.println("Ingrese el nombre del titulo: ");
+        String nom = teclado.nextLine().trim();
+        List<Libro> libros = buscarLibro(nom);
+        List<Libro> librosPorTitulo = libros.stream()
+                .filter(libro -> libro.getTitulo().toLowerCase().contains(nom.toLowerCase()))
+                .collect(Collectors.toList());
+        System.out.println(librosPorTitulo);
+        guardarLibro();
+    }
+
+    private List<Libro> buscarLibro(String nom) {
+
+        URL = URL + "?search=" + nom.toLowerCase().replace(" ", "%20");
+        DatosRecibidos datos = obtenerDatos(URL);
         List<Libro> libros = datos.getLibros().stream().collect(Collectors.toList());
+        System.out.println(libros.toString());
         return libros;
 
     }
@@ -102,15 +156,47 @@ public class Principal {
         DatosRecibidos datos = obtenerDatos(url);
         List<Libro> libros = datos.getLibros().stream().collect(Collectors.toList());
         System.out.println(libros.toString());
+        menuSecundario(datos);
+    }
+
+    private void guardarLibro() {
+        System.out.println("""
+                Desea guardar algun libro mostrado?
+                01_Guardar
+                00_Salir
+                """);
+        int aux = teclado.nextInt();
+        teclado.nextLine();
+        switch (aux) {
+            case 1:
+                System.out.println("Ingrese el id del libro a guardar: ");
+                long id = teclado.nextLong();
+                teclado.nextLine();
+                buscarLibroPorId(id);
+                break;
+
+        }
+    }
+
+    private void buscarLibroPorId(Long id) {
+        String aux = "https://gutendex.com/books/?ids=" + id;
+        Libro libroEncontrado = obtenerDatos(aux).getLibros().get(0);
+        System.out.println(libroEncontrado.toString());
+        repository.save(libroEncontrado);
+
+    }
+
+    private void menuSecundario(DatosRecibidos datos) {
+
         int aux = 0;
-        System.out.println(datos.getSiguiente());
+
         if (datos.getSiguiente() != null && datos.getAnterior() == null) {
             System.out.println("""
                     1_Pasar a la siguiente pagina
                     0_Volver al menu
                     """);
             aux = teclado.nextInt();
-            url = datos.getSiguiente();
+            URL = datos.getSiguiente();
         } else if (datos.getSiguiente() != null && datos.getAnterior() != null) {
             System.out.println("""
                     1_Pasar a la siguiente pagina
@@ -130,12 +216,12 @@ public class Principal {
 
         switch (aux) {
             case 1:
-                url = datos.getSiguiente();
-                mostrarLibros(url);
+                URL = datos.getSiguiente();
+                mostrarLibros(URL);
                 break;
             case 2:
-                url = datos.getAnterior();
-                mostrarLibros(url);
+                URL = datos.getAnterior();
+                mostrarLibros(URL);
                 break;
             case 0:
 
@@ -144,8 +230,5 @@ public class Principal {
 
         }
 
-
     }
-
-
 }

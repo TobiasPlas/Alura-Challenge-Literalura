@@ -18,8 +18,7 @@ public class Formatos {
     @JsonAlias("image/jpeg")
     private String imagen;
 
-    @OneToOne()
-    @JoinColumn(name = "id_libro")
+    @OneToOne(mappedBy = "formato")
     private Libro libroid;
 
     public Formatos(String text, String imagen) {

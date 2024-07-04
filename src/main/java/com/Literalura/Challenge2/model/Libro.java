@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -13,12 +15,19 @@ public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private long id;
+
 
     @JsonAlias("title")
     private String titulo;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "libro_autor",
+            joinColumns = { @JoinColumn(name = "libro_id") },
+            inverseJoinColumns = { @JoinColumn(name = "autor_id") }
+    )
     @JsonAlias("authors")
     private List<Autor> autores;
 
@@ -31,13 +40,13 @@ public class Libro {
     @JsonAlias("download_count")
     private long cantidadDeDescargas;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonAlias("formats")
     private Formatos formato;
 
 
 
-    public Libro(Long id, String titulo, List<Autor> autores, List<String> asignaturas, List<String> lenguaje,
+    public Libro(long id, String titulo, List<Autor> autores, List<String> asignaturas, List<String> lenguaje,
                  long cantidadDeDescargas, Formatos formato, String portada, String texto) {
         this.id = id;
         this.titulo = titulo;
@@ -63,11 +72,11 @@ public class Libro {
         this.formato = formato;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -115,7 +124,7 @@ public class Libro {
     @Override
     public String toString() {
         return "\n"+"Libro" + "\n"+
-                "id=" + id +"\n"+
+                "Id="+ id+ "\n"+
                 "Titulo='" + titulo + "\n"+
                 "Autores=" + autores +"\n"+
                 "Asignaturas=" + asignaturas +"\n"+

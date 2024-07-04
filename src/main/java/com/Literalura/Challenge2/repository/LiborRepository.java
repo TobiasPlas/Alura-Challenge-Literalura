@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface LiborRepository extends JpaRepository<Libro,Long> {
+
     @Query("SELECT l FROM Libro l WHERE l.titulo ILIKE %:nom")
     List<Libro> buscarLibroPorNombre(String nom);
 

@@ -3,17 +3,18 @@ package com.Literalura.Challenge2.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private long id;
 
     @JsonAlias("name")
     private String nombre;
@@ -24,6 +25,9 @@ public class Autor {
     @JsonProperty("death_year")
     private int defuncion;
 
+    @ManyToMany(mappedBy = "autores")
+    private List<Libro> libro;
+
 
     public Autor(long id, String nombre, int nacimiento, int defuncion) {
         this.id = id;
@@ -33,6 +37,14 @@ public class Autor {
     }
 
     public Autor() {
+    }
+
+    public List<Libro> getLibro() {
+        return libro;
+    }
+
+    public void setLibro(List<Libro> libro) {
+        this.libro = libro;
     }
 
     public long getId() {
