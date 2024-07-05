@@ -7,11 +7,9 @@ import com.Literalura.Challenge2.model.Libro;
 import com.Literalura.Challenge2.repository.LiborRepository;
 import com.Literalura.Challenge2.service.ConsumoApi;
 import com.Literalura.Challenge2.service.ConvierteDatos;
-import org.yaml.snakeyaml.scanner.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -20,7 +18,7 @@ public class Principal {
     private Scanner teclado = new Scanner(System.in);
     private ConsumoApi consumoApi = new ConsumoApi();
     private ConvierteDatos convierteDatos = new ConvierteDatos();
-    static String URL = "https://gutendex.com/books/";
+    static final String URL = "https://gutendex.com/books/";
     private LiborRepository repository;
     private String nom;
 
@@ -78,7 +76,7 @@ public class Principal {
                     mostrarAutoresPorAnio();
                     break;
                 case 7:
-                mostrarLibrosIdioma();
+                    mostrarCantidadIdioma();
 
                 case 0:
                     break;
@@ -93,12 +91,40 @@ public class Principal {
 
     }
 
-    private void mostrarLibrosIdioma() {
+    private void mostrarCantidadIdioma() {
+
+        String idioma = "";
+        System.out.println("""
+                *******************************************
+                *******  Que idioma desea leer?    ********
+                *******************************************
+                01_Español
+                02_English
+                """);
+        int i = teclado.nextInt();
+        teclado.nextLine();
+        switch (i) {
+            case 1:
+                idioma = "es";
+                break;
+            case 2:
+                idioma = "en";
+                break;
+            default:
+                System.out.println("Opcion invalida! :(");
+        }
+
+        if (i == 1 || i == 2) {
+            String urlIdioma = URL + "?languages=" + idioma;
+            DatosRecibidos datos = obtenerDatos(urlIdioma);
+            System.out.println("La cantidad de libros en "+idioma+" es de: "+datos.getCantidadDeLibros());
+
+        }
 
     }
 
     private void mostrarAutoresGuardados() {
-        List<Autor>list=repository.getAllAutores();
+        List<Autor> list = repository.getAllAutores();
         System.out.println(list.toString());
     }
 
@@ -109,9 +135,9 @@ public class Principal {
                 ********       Elija el año       *********
                 *******************************************
                 """);
-            int ano=teclado.nextInt();
+        int ano = teclado.nextInt();
 
-            List<Autor>autors=repository.getAutoresAnio(ano);
+        List<Autor> autors = repository.getAutoresAnio(ano);
         System.out.println(autors.toString());
     }
 
@@ -137,11 +163,11 @@ public class Principal {
                 System.out.println("Opcion invalida! :(");
         }
 
-        if (i==1||i==2){
-            String urlIdioma=URL+"?languages="+idioma;
+        if (i == 1 || i == 2) {
+            String urlIdioma = URL + "?languages=" + idioma;
             DatosRecibidos datos = obtenerDatos(urlIdioma);
 
-            List<Libro>listaIdioma=datos.getLibros();
+            List<Libro> listaIdioma = datos.getLibros();
 
             System.out.println(listaIdioma.toString());
             menuSecundario(datos);
@@ -168,33 +194,36 @@ public class Principal {
     private void buscarLibroTitulo() {
         System.out.println("Ingrese el nombre del titulo: ");
         String nom = teclado.nextLine().trim();
-        List<Libro> libros = buscarLibro(nom);
+        String urlAux = URL + "?search=" + nom.toLowerCase().replace(" ", "%20");
+
+        List<Libro> libros = buscarLibro(urlAux);
         List<Libro> librosPorTitulo = libros.stream()
                 .filter(libro -> libro.getTitulo().toLowerCase().contains(nom.toLowerCase()))
                 .collect(Collectors.toList());
-        if (libros!=null){
+        if (libros != null) {
             System.out.println(librosPorTitulo);
             guardarLibro();
-        }else {
+            menuSecundario(obtenerDatos(urlAux));
+        } else {
             System.out.println("Libro no encontrado");
         }
 
     }
 
-    private List<Libro> buscarLibro(String nom) {
+    private List<Libro> buscarLibro(String urlAux) {
 
 
-        URL = URL + "?search=" + nom.toLowerCase().replace(" ", "%20");
-        DatosRecibidos datos = obtenerDatos(URL);
+        DatosRecibidos datos = obtenerDatos(urlAux);
 
-            try {
-                List<Libro> libros = datos.getLibros().stream().collect(Collectors.toList());
-                System.out.println(libros.toString());
-            }catch (Exception e){
+        try {
+            List<Libro> libros = datos.getLibros().stream().collect(Collectors.toList());
+            System.out.println(libros.toString());
+        } catch (Exception e) {
 
-                System.out.println("Libro no encontrado");
-            }
-        List<Libro> libros= new ArrayList<>();
+            System.out.println("Libro no encontrado");
+        }
+        List<Libro> libros = new ArrayList<>();
+
         return libros;
 
     }
@@ -241,7 +270,7 @@ public class Principal {
     }
 
     private void menuSecundario(DatosRecibidos datos) {
-
+        String urlAux;
         int aux = 0;
 
         if (datos.getSiguiente() != null && datos.getAnterior() == null) {
@@ -250,7 +279,7 @@ public class Principal {
                     0_Volver al menu
                     """);
             aux = teclado.nextInt();
-            URL = datos.getSiguiente();
+            urlAux = datos.getSiguiente();
         } else if (datos.getSiguiente() != null && datos.getAnterior() != null) {
             System.out.println("""
                     1_Pasar a la siguiente pagina
@@ -270,12 +299,12 @@ public class Principal {
 
         switch (aux) {
             case 1:
-                URL = datos.getSiguiente();
-                mostrarLibros(URL);
+                urlAux = datos.getSiguiente();
+                mostrarLibros(urlAux);
                 break;
             case 2:
-                URL = datos.getAnterior();
-                mostrarLibros(URL);
+                urlAux = datos.getAnterior();
+                mostrarLibros(urlAux);
                 break;
             case 0:
 
