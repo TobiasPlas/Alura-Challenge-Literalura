@@ -84,7 +84,7 @@ public class Autor {
         return
                 "Nombre=" + nombre + '\n' +
                 "         Nacimiento=" + nacimiento +'\n' +
-                "         Defuncion=" + defuncion
+                "         Defuncion=" + defuncion+'\n'
                 ;
     }
 }

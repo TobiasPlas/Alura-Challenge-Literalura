@@ -1,6 +1,7 @@
 package com.Literalura.Challenge2.principal;
 
 
+import com.Literalura.Challenge2.model.Autor;
 import com.Literalura.Challenge2.model.DatosRecibidos;
 import com.Literalura.Challenge2.model.Libro;
 import com.Literalura.Challenge2.repository.LiborRepository;
@@ -8,6 +9,7 @@ import com.Literalura.Challenge2.service.ConsumoApi;
 import com.Literalura.Challenge2.service.ConvierteDatos;
 import org.yaml.snakeyaml.scanner.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -37,12 +39,14 @@ public class Principal {
                     ******         LIBRERIA NOBY        *******
                     *******************************************
                                     
-                    01_Mostrar todos los libros colgados en la red
-                    02_Filtrar libro por titulo 
-                    03_Filtrar libro por autor
-                    04_Filtrar por idioma 
-                                        
-                    00_Salir
+                     1_Mostrar todos los libros colgados en la red
+                     2_Filtrar libro por titulo 
+                     3_Filtrar libro por autor
+                     4_Filtrar por idioma 
+                     5_Mostrar lista de autores guardados               
+                     6_Mostrar autores vivos en determinado año 
+                     7_Exhibir cantidad de libros guardados en un determinado idioma
+                     0_Salir
                                     
                     """);
 
@@ -63,8 +67,19 @@ public class Principal {
                     break;
                 case 3:
                     buscarLibroAutor();
+                    break;
                 case 4:
                     filtrarIdioma();
+                    break;
+                case 5:
+                    mostrarAutoresGuardados();
+                    break;
+                case 6:
+                    mostrarAutoresPorAnio();
+                    break;
+                case 7:
+                mostrarLibrosIdioma();
+
                 case 0:
                     break;
             }
@@ -76,6 +91,28 @@ public class Principal {
         //   System.out.println(datos.getLibros().toString());
 
 
+    }
+
+    private void mostrarLibrosIdioma() {
+
+    }
+
+    private void mostrarAutoresGuardados() {
+        List<Autor>list=repository.getAllAutores();
+        System.out.println(list.toString());
+    }
+
+    private void mostrarAutoresPorAnio() {
+
+        System.out.println("""
+                *******************************************
+                ********       Elija el año       *********
+                *******************************************
+                """);
+            int ano=teclado.nextInt();
+
+            List<Autor>autors=repository.getAutoresAnio(ano);
+        System.out.println(autors.toString());
     }
 
     private void filtrarIdioma() {
@@ -96,16 +133,20 @@ public class Principal {
             case 2:
                 idioma = "en";
                 break;
+            default:
+                System.out.println("Opcion invalida! :(");
         }
 
-        String urlIdioma=URL+"?languages="+idioma;
-        DatosRecibidos datos = obtenerDatos(urlIdioma);
+        if (i==1||i==2){
+            String urlIdioma=URL+"?languages="+idioma;
+            DatosRecibidos datos = obtenerDatos(urlIdioma);
 
-        List<Libro>listaIdioma=datos.getLibros();
+            List<Libro>listaIdioma=datos.getLibros();
 
-        System.out.println(listaIdioma.toString());
-        System.out.println(urlIdioma);
-        menuSecundario(datos);
+            System.out.println(listaIdioma.toString());
+            menuSecundario(datos);
+        }
+
 
     }
 
@@ -131,16 +172,29 @@ public class Principal {
         List<Libro> librosPorTitulo = libros.stream()
                 .filter(libro -> libro.getTitulo().toLowerCase().contains(nom.toLowerCase()))
                 .collect(Collectors.toList());
-        System.out.println(librosPorTitulo);
-        guardarLibro();
+        if (libros!=null){
+            System.out.println(librosPorTitulo);
+            guardarLibro();
+        }else {
+            System.out.println("Libro no encontrado");
+        }
+
     }
 
     private List<Libro> buscarLibro(String nom) {
 
+
         URL = URL + "?search=" + nom.toLowerCase().replace(" ", "%20");
         DatosRecibidos datos = obtenerDatos(URL);
-        List<Libro> libros = datos.getLibros().stream().collect(Collectors.toList());
-        System.out.println(libros.toString());
+
+            try {
+                List<Libro> libros = datos.getLibros().stream().collect(Collectors.toList());
+                System.out.println(libros.toString());
+            }catch (Exception e){
+
+                System.out.println("Libro no encontrado");
+            }
+        List<Libro> libros= new ArrayList<>();
         return libros;
 
     }
