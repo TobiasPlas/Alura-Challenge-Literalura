@@ -9,16 +9,7 @@
 ####Lo primero que nos encontramos al ejecutar el programa es el menu de inicio que cuenta con 8 opciones
 
 [![menu-inicio.png](https://i.postimg.cc/YC1XFY82/menu-inicio.png)](https://postimg.cc/zyGSZL94)
-```java
- Mostrar todos los libros colgados en la red
- Filtrar libro por titulo
- Filtrar libro por autor
- Filtrar por idioma
- Mostrar lista de autores guardados
- Mostrar autores vivos en determinado año
- Exhibir cantidad de libros guardados en un determinado idioma
- Salir
-```
+
 
 La funcionalidad del mismo es la siguiente:Le mostramos al usuario la lista de opciones con un numero asignado para que pueda elegir una accion, guardando su respuesta en una variable gracias a la funcion Scanner.
 Con el metodo switch logramos que segun su respuesta ejecute diveros metodos
@@ -41,10 +32,10 @@ Con el metodo switch logramos que segun su respuesta ejecute diveros metodos
 
  Analisando el Json que entregaba la api,note que la principal entidad contaba con 4 importantes parametros.
 
- "count":La cantidad de resultados
- "next":La url de la pagina siguiente
- "previous":La url de la pagina anterior
- "results":Lista de libros
+ "count":La cantidad de resultados.  
+ "next":La url de la pagina siguiente.  
+ "previous":La url de la pagina anterior.  
+ "results":Lista de libros.  
 
 Dicha lista de libros estaba limitada a 32 libros y para ver la continuasion de dicha lista de libros habria que ingresar a la url de la siguiente pagina proporsionada en el apartado "next".
 De alli surge el metodo menuSecundario().
