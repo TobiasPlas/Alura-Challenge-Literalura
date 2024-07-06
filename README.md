@@ -31,8 +31,21 @@ Con el metodo switch logramos que segun su respuesta ejecute diveros metodos
   En la primera opcion tenemos el metodo mostrar libros que se encarga de crear y mostrar la lista de libros
  [![metodo-monstrar-Libros-primera-opcion.png](https://i.postimg.cc/g2ckZqHm/metodo-monstrar-Libros-primera-opcion.png)](https://postimg.cc/2VJDpWtK)
 
- Dentro de la misma se llama al metodo obtener datos que el mismo se encarga de consumir la api y mapearla en la entidad DatosRecibidos 
-
+ Dentro de la misma se llama al metodo obtener datos que el mismo se encarga de consumir la api y mapearla en la entidad DatosRecibidos
+ 
  [![Obtener-Datos.png](https://i.postimg.cc/vHLHrDKv/Obtener-Datos.png)](https://postimg.cc/2VyDmjrq)
 
  [![Obtener-Datos.png](https://i.postimg.cc/9QQVybZW/Obtener-Datos.png)](https://postimg.cc/vckpsW0j)
+ 
+ [![Clase-Consumir-Api.png](https://i.postimg.cc/qRf9Dxh6/Clase-Consumir-Api.png)](https://postimg.cc/2qwcVvxC)
+
+ Analisando el Json que entregaba la api,note que la principal entidad contaba con 4 importantes parametros.
+
+ "count":La cantidad de resultados
+ "next":La url de la pagina siguiente
+ "previous":La url de la pagina anterior
+ "results":Lista de libros
+
+Dicha lista de libros estaba limitada a 32 libros y para ver la continuasion de dicha lista de libros habria que ingresar a la url de la siguiente pagina proporsionada en el apartado "next".
+De alli surge el metodo menuSecundario().
+ 
