@@ -30,7 +30,6 @@ public class Principal {
     public void ejecutar() {
         int eleccion = -1;
 
-
         while (eleccion != 0) {
             System.out.println("""
                     *******************************************
@@ -47,16 +46,14 @@ public class Principal {
                      0_Salir
                                     
                     """);
-
             eleccion = teclado.nextInt();
             teclado.nextLine();
-            if (eleccion < -2 || eleccion > 6) {
+            if (eleccion < -1 || eleccion >=7) {
                 System.out.println("Valor no valido");
                 break;
             }
 
             switch (eleccion) {
-
                 case 1:
                     mostrarLibros(URL);
                     break;
@@ -77,16 +74,13 @@ public class Principal {
                     break;
                 case 7:
                     mostrarCantidadIdioma();
-
                 case 0:
                     break;
             }
 
-
         }
 
 
-        //   System.out.println(datos.getLibros().toString());
 
 
     }
