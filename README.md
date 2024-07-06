@@ -28,7 +28,11 @@ Con el metodo switch logramos que segun su respuesta ejecute diveros metodos
 
  
 
-  En la primera opcion 
-
+  En la primera opcion tenemos el metodo mostrar libros que se encarga de crear y mostrar la lista de libros
  [![metodo-monstrar-Libros-primera-opcion.png](https://i.postimg.cc/g2ckZqHm/metodo-monstrar-Libros-primera-opcion.png)](https://postimg.cc/2VJDpWtK)
- 
+
+ Dentro de la misma se llama al metodo obtener datos que el mismo se encarga de consumir la api y mapearla en la entidad DatosRecibidos 
+
+ [![Obtener-Datos.png](https://i.postimg.cc/vHLHrDKv/Obtener-Datos.png)](https://postimg.cc/2VyDmjrq)
+
+ [![Obtener-Datos.png](https://i.postimg.cc/9QQVybZW/Obtener-Datos.png)](https://postimg.cc/vckpsW0j)
