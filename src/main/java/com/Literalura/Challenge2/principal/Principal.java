@@ -167,7 +167,6 @@ public class Principal {
             menuSecundario(datos);
         }
 
-
     }
 
     private void buscarLibroAutor() {
@@ -177,7 +176,8 @@ public class Principal {
                 *******************************************
                 """);
         String nom = teclado.nextLine().trim();
-        List<Libro> libros = buscarLibro(nom);
+        String urlAux = URL + "?search=" + nom.toLowerCase().replace(" ", "%20");
+        List<Libro> libros = buscarLibro(urlAux);
         List<Libro> librosPorAutor = libros.stream()
                 .filter(libro -> libro.getAutores().stream().anyMatch(autor -> autor.getNombre().toLowerCase().contains(nom.toLowerCase()))).collect(Collectors.toList());
 
@@ -206,9 +206,7 @@ public class Principal {
 
     private List<Libro> buscarLibro(String urlAux) {
 
-
         DatosRecibidos datos = obtenerDatos(urlAux);
-
         try {
             List<Libro> libros = datos.getLibros().stream().collect(Collectors.toList());
             System.out.println(libros.toString());
@@ -301,10 +299,7 @@ public class Principal {
                 mostrarLibros(urlAux);
                 break;
             case 0:
-
                 break;
-
-
         }
 
     }
