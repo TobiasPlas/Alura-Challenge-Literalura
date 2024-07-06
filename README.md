@@ -39,4 +39,27 @@ Con el metodo switch logramos que segun su respuesta ejecute diveros metodos
 
 Dicha lista de libros estaba limitada a 32 libros y para ver la continuasion de dicha lista de libros habria que ingresar a la url de la siguiente pagina proporsionada en el apartado "next".
 De alli surge el metodo menuSecundario().
+
+[![Menu-Secundario.png](https://i.postimg.cc/HsCbWc50/Menu-Secundario.png)](https://postimg.cc/4nBYB3Wn)
+
+Lo que hace es verificar si la entidad "datos" recibida contiene o no pagina siguiente o anterior y determina que opciones brindarle al usuario para que eliga entre pasar de pagina,volver a la pagina anterior o salir al menu principal.  
+
+Las opciones 2 y 3 , "Filtrar libro por titulo" y "Filtrar libro por autor" si bien llaman metodos distintos, los dos desembocan a un mismo metodo que es el de buscarLibro(); 
+
+[![buscar-Libros-Segun.png](https://i.postimg.cc/jjN7rR53/buscar-Libros-Segun.png)](https://postimg.cc/bGyJxc11)
+
+[![buscar-Libros.png](https://i.postimg.cc/63XGWF4W/buscar-Libros.png)](https://postimg.cc/HJ6L3ZtR)
+
+Aprovechando que la Api proporciona un endPoin para buscar nombres de autores y títulos de libros con palabras dadas, lo unico que tenia que hacer era filtrarlo para cada metodo en especifico como se ve en la imagen.
+
+Al final de los mismos se puede ver el metodo de guardarLibro(),que le brinda al usuario la capacidad de elegir guardar o no alguno de los libros mostrados en pantalla tomando como referencia el id;  
+
+ [![guardar-Libro.png](https://i.postimg.cc/LsRHnSDb/guardar-Libro.png)](https://postimg.cc/PC3GRBBW) 
+
+
+ La cuarta opcion "Filtrar por idioma" le brinda al usuario la posibilidad de elegir si ver libros en español o en ingles asegurandose de que el usuario coloque un valor valido,sino se vuelve al menu de inicio.  
  
+ ![image](https://github.com/TobiasPlas/Alura-Challenge-Literalura/assets/127445119/5d16db36-b56a-4ee9-8f67-b359fc4a0b58)
+
+ En la opcion numero 5 "Mostrar lista de autores guardados"
+
