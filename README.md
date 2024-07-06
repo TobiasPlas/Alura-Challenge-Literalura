@@ -59,6 +59,7 @@ Al final de los mismos se puede ver el metodo de guardarLibro(),que le brinda al
 
  La cuarta opcion "Filtrar por idioma" le brinda al usuario la posibilidad de elegir si ver libros en español o en ingles asegurandose de que el usuario coloque un valor valido,sino se vuelve al menu de inicio.  
  
-[![filtrar-Idioma.png](https://i.postimg.cc/SxmSKqDt/filtrar-Idioma.png)](https://postimg.cc/w7b8fKKh)
+[![filtrar-Idioma.png](https://i.postimg.cc/SxmSKqDt/filtrar-Idioma.png)](https://postimg.cc/w7b8fKKh)  
+
  En la opcion numero 5 "Mostrar lista de autores guardados"
 
