@@ -77,7 +77,6 @@ Al final de los mismos se puede ver el metodo de guardarLibro(),que le brinda al
 
  [![Cantidad-de-idioma.png](https://i.postimg.cc/rFqbZsHw/Cantidad-de-idioma.png)](https://postimg.cc/V5HDdf1x)
 
- A lo largo del proyecto me encontre con varias incognitas, ya que en ningun momento aclara si los metodos proporcionados tenian que extraer los resultados de la base de datos o de la api,
- Hice lo mejro posible aun que se que hay cosas que se pueden mejorar.
+ A lo largo del proyecto me encontre con varias incognitas , hice lo mejor posible aun que se que hay cosas que se pueden mejorar.
  
 
