@@ -61,5 +61,23 @@ Al final de los mismos se puede ver el metodo de guardarLibro(),que le brinda al
  
 [![filtrar-Idioma.png](https://i.postimg.cc/SxmSKqDt/filtrar-Idioma.png)](https://postimg.cc/w7b8fKKh)  
 
- En la opcion numero 5 "Mostrar lista de autores guardados"
+ En la quinta opcion "Mostrar lista de autores guardados" solamente implemente una derived querie  
+ [![mostrar-Autores-Guardados.png](https://i.postimg.cc/hGm7dDc9/mostrar-Autores-Guardados.png)](https://postimg.cc/SXys0pXs)  
+
+ [![Query-All-Autores.png](https://i.postimg.cc/1tZV0k3b/Query-All-Autores.png)](https://postimg.cc/kVf5qh8y)  
+
+ En la sexta opcion "Mostrar autores vivos en determinado año" tambien nos apoyamos en una derived querie como se ve a continuacion 
+
+ [![Autores-Por-A-o.png](https://i.postimg.cc/WzY4yCsN/Autores-Por-A-o.png)](https://postimg.cc/7J7DGBCd)  
+
+[![Autores-Por-A-o-Query.png](https://i.postimg.cc/GmypMXVR/Autores-Por-A-o-Query.png)](https://postimg.cc/PCdhJQdV)  
+
+ En la septima y ultima opcion "Exhibir cantidad de libros guardados en un determinado idioma"  lo unico que tuve que hacer fue un metodo para filtrarlo por idioma y por si solo el json proporcionado por la api
+ ya me mostraba cuantos resultabos habia en el apartado "count"  
+
+ [![Cantidad-de-idioma.png](https://i.postimg.cc/rFqbZsHw/Cantidad-de-idioma.png)](https://postimg.cc/V5HDdf1x)
+
+ A lo largo del proyecto me encontre con varias incognitas, ya que en ningun momento aclara si los metodos proporcionados tenian que extraer los resultados de la base de datos o de la api,
+ Hice lo mejro posible aun que se que hay cosas que se pueden mejorar.
+ 
 
