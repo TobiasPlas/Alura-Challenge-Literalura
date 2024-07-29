@@ -1,4 +1,4 @@
-#LIBRERIA NOBY
+# LIBRERIA NOBY
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-####Lo primero que nos encontramos al ejecutar el programa es el menu de inicio que cuenta con 8 opciones
+#### Lo primero que nos encontramos al ejecutar el programa es el menu de inicio que cuenta con 8 opciones
 
 [![menu-inicio.png](https://i.postimg.cc/YC1XFY82/menu-inicio.png)](https://postimg.cc/zyGSZL94)
 
